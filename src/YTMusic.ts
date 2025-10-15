@@ -536,12 +536,12 @@ export default class YTMusic {
 	 * @returns Playlist Data
 	 */
 	public async getPlaylist(playlistId: string): Promise<PlaylistFull> {
-		if (playlistId.startsWith("PL")) playlistId = "VL" + playlistId
+		if (playlistId.startsWith("PL")||playlistId.startsWith("RD")) playlistId = "VL" + playlistId
 		const data = await this.constructRequest("browse", {
 			browseId: playlistId,
 		})
 
-		return PlaylistParser.parse(data, playlistId)
+		return PlaylistParser.parse(data, playlistId.replace("VL",""))
 	}
 
 	/**
@@ -551,7 +551,7 @@ export default class YTMusic {
 	 * @returns Playlist's Videos
 	 */
 	public async getPlaylistVideos(playlistId: string): Promise<VideoDetailed[]> {
-		if (playlistId.startsWith("PL")) playlistId = "VL" + playlistId
+		if (playlistId.startsWith("PL")||playlistId.startsWith("RD")) playlistId = "VL" + playlistId
 		const playlistData = await this.constructRequest("browse", {
 			browseId: playlistId,
 		})
